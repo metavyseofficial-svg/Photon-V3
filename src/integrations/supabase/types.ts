@@ -14,13 +14,120 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      friendships: {
+        Row: {
+          created_at: string
+          friend_id: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          friend_id: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          friend_id?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string
+          friend_code: string
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string
+          friend_code: string
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string
+          friend_code?: string
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      study_snapshots: {
+        Row: {
+          completed: number
+          current_chapters: Json
+          daily_goal: number
+          done_today: number
+          percent: number
+          streak: number
+          subjects: Json
+          total: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed?: number
+          current_chapters?: Json
+          daily_goal?: number
+          done_today?: number
+          percent?: number
+          streak?: number
+          subjects?: Json
+          total?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed?: number
+          current_chapters?: Json
+          daily_goal?: number
+          done_today?: number
+          percent?: number
+          streak?: number
+          subjects?: Json
+          total?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      add_friend_by_code: {
+        Args: { _code: string }
+        Returns: {
+          display_name: string
+          friend_code: string
+          id: string
+        }[]
+      }
+      ensure_my_profile: {
+        Args: { _display_name?: string }
+        Returns: {
+          created_at: string
+          display_name: string
+          friend_code: string
+          id: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "profiles"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      follows: { Args: { _target: string; _viewer: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
