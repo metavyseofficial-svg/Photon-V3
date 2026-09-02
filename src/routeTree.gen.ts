@@ -10,33 +10,142 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as FriendsRouteImport } from './routes/friends'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SyllabusRouteImport } from './routes/syllabus'
+import { Route as FriendsFriendIdRouteImport } from './routes/friends_.$friendId'
+import { Route as SubjectsIndexRouteImport } from './routes/subjects.index'
+import { Route as SubjectsSubjectIdIndexRouteImport } from './routes/subjects.$subjectId.index'
+import { Route as SubjectsSubjectIdChapterIdRouteImport } from './routes/subjects.$subjectId.$chapterId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FriendsRoute = FriendsRouteImport.update({
+  id: '/friends',
+  path: '/friends',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SyllabusRoute = SyllabusRouteImport.update({
+  id: '/syllabus',
+  path: '/syllabus',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FriendsFriendIdRoute = FriendsFriendIdRouteImport.update({
+  id: '/friends_/$friendId',
+  path: '/friends/$friendId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SubjectsIndexRoute = SubjectsIndexRouteImport.update({
+  id: '/subjects/',
+  path: '/subjects/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SubjectsSubjectIdIndexRoute = SubjectsSubjectIdIndexRouteImport.update({
+  id: '/subjects/$subjectId/',
+  path: '/subjects/$subjectId/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SubjectsSubjectIdChapterIdRoute =
+  SubjectsSubjectIdChapterIdRouteImport.update({
+    id: '/subjects/$subjectId/$chapterId',
+    path: '/subjects/$subjectId/$chapterId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/friends': typeof FriendsRoute
+  '/settings': typeof SettingsRoute
+  '/syllabus': typeof SyllabusRoute
+  '/friends/$friendId': typeof FriendsFriendIdRoute
+  '/subjects/': typeof SubjectsIndexRoute
+  '/subjects/$subjectId/$chapterId': typeof SubjectsSubjectIdChapterIdRoute
+  '/subjects/$subjectId/': typeof SubjectsSubjectIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/friends': typeof FriendsRoute
+  '/settings': typeof SettingsRoute
+  '/syllabus': typeof SyllabusRoute
+  '/friends/$friendId': typeof FriendsFriendIdRoute
+  '/subjects': typeof SubjectsIndexRoute
+  '/subjects/$subjectId/$chapterId': typeof SubjectsSubjectIdChapterIdRoute
+  '/subjects/$subjectId': typeof SubjectsSubjectIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/friends': typeof FriendsRoute
+  '/settings': typeof SettingsRoute
+  '/syllabus': typeof SyllabusRoute
+  '/friends_/$friendId': typeof FriendsFriendIdRoute
+  '/subjects/': typeof SubjectsIndexRoute
+  '/subjects/$subjectId/$chapterId': typeof SubjectsSubjectIdChapterIdRoute
+  '/subjects/$subjectId/': typeof SubjectsSubjectIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/friends'
+    | '/settings'
+    | '/syllabus'
+    | '/friends/$friendId'
+    | '/subjects/'
+    | '/subjects/$subjectId/$chapterId'
+    | '/subjects/$subjectId/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/friends'
+    | '/settings'
+    | '/syllabus'
+    | '/friends/$friendId'
+    | '/subjects'
+    | '/subjects/$subjectId/$chapterId'
+    | '/subjects/$subjectId'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/friends'
+    | '/settings'
+    | '/syllabus'
+    | '/friends_/$friendId'
+    | '/subjects/'
+    | '/subjects/$subjectId/$chapterId'
+    | '/subjects/$subjectId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
+  FriendsRoute: typeof FriendsRoute
+  SettingsRoute: typeof SettingsRoute
+  SyllabusRoute: typeof SyllabusRoute
+  FriendsFriendIdRoute: typeof FriendsFriendIdRoute
+  SubjectsIndexRoute: typeof SubjectsIndexRoute
+  SubjectsSubjectIdChapterIdRoute: typeof SubjectsSubjectIdChapterIdRoute
+  SubjectsSubjectIdIndexRoute: typeof SubjectsSubjectIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +157,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/friends': {
+      id: '/friends'
+      path: '/friends'
+      fullPath: '/friends'
+      preLoaderRoute: typeof FriendsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/syllabus': {
+      id: '/syllabus'
+      path: '/syllabus'
+      fullPath: '/syllabus'
+      preLoaderRoute: typeof SyllabusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/friends_/$friendId': {
+      id: '/friends_/$friendId'
+      path: '/friends/$friendId'
+      fullPath: '/friends/$friendId'
+      preLoaderRoute: typeof FriendsFriendIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/subjects/': {
+      id: '/subjects/'
+      path: '/subjects'
+      fullPath: '/subjects/'
+      preLoaderRoute: typeof SubjectsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/subjects/$subjectId/': {
+      id: '/subjects/$subjectId/'
+      path: '/subjects/$subjectId'
+      fullPath: '/subjects/$subjectId/'
+      preLoaderRoute: typeof SubjectsSubjectIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/subjects/$subjectId/$chapterId': {
+      id: '/subjects/$subjectId/$chapterId'
+      path: '/subjects/$subjectId/$chapterId'
+      fullPath: '/subjects/$subjectId/$chapterId'
+      preLoaderRoute: typeof SubjectsSubjectIdChapterIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
+  FriendsRoute: FriendsRoute,
+  SettingsRoute: SettingsRoute,
+  SyllabusRoute: SyllabusRoute,
+  FriendsFriendIdRoute: FriendsFriendIdRoute,
+  SubjectsIndexRoute: SubjectsIndexRoute,
+  SubjectsSubjectIdChapterIdRoute: SubjectsSubjectIdChapterIdRoute,
+  SubjectsSubjectIdIndexRoute: SubjectsSubjectIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
