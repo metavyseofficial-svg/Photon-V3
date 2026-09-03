@@ -61,36 +61,63 @@ export type Database = {
       }
       study_snapshots: {
         Row: {
+          chapters_done: number
+          chapters_total: number
           completed: number
           current_chapters: Json
           daily_goal: number
           done_today: number
+          goals: Json
+          goals_done: number
+          goals_total: number
           percent: number
+          questions_solved: number
+          questions_total: number
+          shared_data: Json
           streak: number
+          study_minutes: number
           subjects: Json
           total: number
           updated_at: string
           user_id: string
         }
         Insert: {
+          chapters_done?: number
+          chapters_total?: number
           completed?: number
           current_chapters?: Json
           daily_goal?: number
           done_today?: number
+          goals?: Json
+          goals_done?: number
+          goals_total?: number
           percent?: number
+          questions_solved?: number
+          questions_total?: number
+          shared_data?: Json
           streak?: number
+          study_minutes?: number
           subjects?: Json
           total?: number
           updated_at?: string
           user_id: string
         }
         Update: {
+          chapters_done?: number
+          chapters_total?: number
           completed?: number
           current_chapters?: Json
           daily_goal?: number
           done_today?: number
+          goals?: Json
+          goals_done?: number
+          goals_total?: number
           percent?: number
+          questions_solved?: number
+          questions_total?: number
+          shared_data?: Json
           streak?: number
+          study_minutes?: number
           subjects?: Json
           total?: number
           updated_at?: string
@@ -103,14 +130,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      add_friend_by_code: {
-        Args: { _code: string }
-        Returns: {
-          display_name: string
-          friend_code: string
-          id: string
-        }[]
-      }
       ensure_my_profile: {
         Args: { _display_name?: string }
         Returns: {
@@ -127,7 +146,6 @@ export type Database = {
           isSetofReturn: false
         }
       }
-      follows: { Args: { _target: string; _viewer: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
@@ -146,12 +164,12 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -175,11 +193,11 @@ export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -200,11 +218,11 @@ export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -225,11 +243,11 @@ export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -242,11 +260,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
