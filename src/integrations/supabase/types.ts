@@ -61,36 +61,63 @@ export type Database = {
       }
       study_snapshots: {
         Row: {
+          chapters_done: number
+          chapters_total: number
           completed: number
           current_chapters: Json
           daily_goal: number
           done_today: number
+          goals: Json
+          goals_done: number
+          goals_total: number
           percent: number
+          questions_solved: number
+          questions_total: number
+          shared_data: Json
           streak: number
+          study_minutes: number
           subjects: Json
           total: number
           updated_at: string
           user_id: string
         }
         Insert: {
+          chapters_done?: number
+          chapters_total?: number
           completed?: number
           current_chapters?: Json
           daily_goal?: number
           done_today?: number
+          goals?: Json
+          goals_done?: number
+          goals_total?: number
           percent?: number
+          questions_solved?: number
+          questions_total?: number
+          shared_data?: Json
           streak?: number
+          study_minutes?: number
           subjects?: Json
           total?: number
           updated_at?: string
           user_id: string
         }
         Update: {
+          chapters_done?: number
+          chapters_total?: number
           completed?: number
           current_chapters?: Json
           daily_goal?: number
           done_today?: number
+          goals?: Json
+          goals_done?: number
+          goals_total?: number
           percent?: number
+          questions_solved?: number
+          questions_total?: number
+          shared_data?: Json
           streak?: number
+          study_minutes?: number
           subjects?: Json
           total?: number
           updated_at?: string
