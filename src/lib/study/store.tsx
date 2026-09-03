@@ -240,11 +240,12 @@ export function StudyProvider({ children }: { children: ReactNode }) {
   const userId = useRef<string | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const latest = useRef(state);
+  const readyRef = useRef(false);
   latest.current = state;
 
   const push = useCallback(async () => {
     const id = userId.current;
-    if (!id) return;
+    if (!id || !readyRef.current) return;
     const s = latest.current;
     const overall = overallStats(s.subjects);
     const syllabus = syllabusStats(s.subjects);
@@ -291,7 +292,7 @@ export function StudyProvider({ children }: { children: ReactNode }) {
         percent: subjectStats(x).percent,
         chapters: x.chapters.filter((c) => !c.archived).length,
       })),
-      current_chapters: activeChapters(visible).map((a) => ({
+      current_chapters: activeChapters(visible, s.currentChapterId).map((a) => ({
         subject: a.subject.name,
         chapter: a.chapter.name,
         percent: a.percent,
@@ -312,6 +313,10 @@ export function StudyProvider({ children }: { children: ReactNode }) {
     });
     return () => sub.subscription.unsubscribe();
   }, [push]);
+
+  useEffect(() => {
+    readyRef.current = ready;
+  }, [ready]);
 
   useEffect(() => {
     if (!ready || !userId.current) return;
