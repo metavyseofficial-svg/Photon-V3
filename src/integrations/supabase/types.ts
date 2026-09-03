@@ -130,14 +130,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      add_friend_by_code: {
-        Args: { _code: string }
-        Returns: {
-          display_name: string
-          friend_code: string
-          id: string
-        }[]
-      }
       ensure_my_profile: {
         Args: { _display_name?: string }
         Returns: {
@@ -154,7 +146,6 @@ export type Database = {
           isSetofReturn: false
         }
       }
-      follows: { Args: { _target: string; _viewer: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
