@@ -37,8 +37,8 @@ import {
   type Subject,
 } from "./types";
 
-const KEY = "preparationstat:v1";
-const LEGACY_KEY = "studyflow:v1";
+const KEY = "photon:v1";
+const LEGACY_KEYS = ["preparationstat:v1", "studyflow:v1"];
 
 type Ctx = {
   state: StudyState;
