@@ -112,23 +112,24 @@ function formatMinutes(min: number) {
 function asSharedData(value: unknown): SharedData {
   if (!value || typeof value !== "object" || Array.isArray(value)) return {};
   const record = value as Record<string, unknown>;
-  const history = record.history;
-  const plans = record.plans;
-  return {
-    subjects: Array.isArray(record.subjects) ? (record.subjects as Subject[]) : undefined,
-    history:
-      history && typeof history === "object" && !Array.isArray(history)
-        ? (history as Record<string, number>)
-        : undefined,
-    plans:
-      plans && typeof plans === "object" && !Array.isArray(plans)
-        ? (plans as Record<string, Goal[]>)
-        : undefined,
-    dailyGoal: typeof record.dailyGoal === "number" ? record.dailyGoal : undefined,
-    revisionIntervals: Array.isArray(record.revisionIntervals)
-      ? (record.revisionIntervals as number[])
-      : undefined,
-  };
+  const shared: SharedData = {};
+  const subjects = record["subjects"];
+  const history = record["history"];
+  const plans = record["plans"];
+  const dailyGoal = record["dailyGoal"];
+  const revisionIntervals = record["revisionIntervals"];
+
+  if (Array.isArray(subjects)) shared.subjects = subjects as Subject[];
+  if (history && typeof history === "object" && !Array.isArray(history)) {
+    shared.history = history as Record<string, number>;
+  }
+  if (plans && typeof plans === "object" && !Array.isArray(plans)) {
+    shared.plans = plans as Record<string, Goal[]>;
+  }
+  if (typeof dailyGoal === "number") shared.dailyGoal = dailyGoal;
+  if (Array.isArray(revisionIntervals)) shared.revisionIntervals = revisionIntervals as number[];
+
+  return shared;
 }
 
 function FriendDetailPage() {
@@ -439,7 +440,7 @@ function SyncedActivity({
               <div className="mt-2 space-y-2">
                 {(goals.length ? goals : summary.goals.map((goal) => ({ date: "Today", goal }))).map(
                   ({ date, goal }, index) => (
-                    <div key={`${date}-${goal.id}-${index}`} className="glass-inset flex items-start justify-between gap-3 rounded-xl px-3 py-2 text-sm">
+                    <div key={`${date}-${goal.text}-${index}`} className="glass-inset flex items-start justify-between gap-3 rounded-xl px-3 py-2 text-sm">
                       <span className={cn("min-w-0", goal.done && "text-muted-foreground line-through")}>
                         <span className="mr-2 text-xs text-muted-foreground">{date}</span>
                         {goal.text}
