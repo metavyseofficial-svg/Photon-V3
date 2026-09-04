@@ -1,6 +1,6 @@
-# StudyFlow: Your Study Compass
+# Photon: Your Study Compass
 
-Build a modern, minimal, premium-looking study tracker app called StudyFlow.
+Photon is a modern, minimal, premium-looking study tracker app.
 
 
 

@@ -37,8 +37,8 @@ import {
   type Subject,
 } from "./types";
 
-const KEY = "preparationstat:v1";
-const LEGACY_KEY = "studyflow:v1";
+const KEY = "photon:v1";
+const LEGACY_KEYS = ["preparationstat:v1", "studyflow:v1"];
 
 type Ctx = {
   state: StudyState;
@@ -167,7 +167,10 @@ export function StudyProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const raw = localStorage.getItem(KEY) ?? localStorage.getItem(LEGACY_KEY);
+      const raw =
+        localStorage.getItem(KEY) ??
+        LEGACY_KEYS.map((k) => localStorage.getItem(k)).find((v) => v !== null) ??
+        null;
       if (raw) setState(migrate(JSON.parse(raw) as Partial<StudyState>));
     } catch {
       /* ignore corrupt storage */

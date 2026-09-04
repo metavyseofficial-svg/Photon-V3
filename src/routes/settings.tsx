@@ -148,7 +148,7 @@ function SettingsPage() {
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement("a");
                 a.href = url;
-                a.download = "preparation-stat-backup.json";
+                a.download = "photon-backup.json";
                 a.click();
                 URL.revokeObjectURL(url);
                 toast.success("Backup downloaded");
