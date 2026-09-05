@@ -5,6 +5,8 @@ import { AppShell, Card } from "@/components/study/app-shell";
 import { lovable } from "@/integrations/lovable/index";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
+import { signInWithUsername } from "@/lib/auth.functions";
+import { useServerFn } from "@tanstack/react-start";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -25,12 +27,15 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const signIn = useServerFn(signInWithUsername);
   const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
   const [sent, setSent] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
 
   useEffect(() => {
     if (user) void navigate({ to: "/friends" });
@@ -41,12 +46,19 @@ function AuthPage() {
     setBusy(true);
     try {
       if (mode === "signup") {
+        const normalizedUsername = username.trim().toLowerCase();
+        if (!/^[a-z0-9_]{3,32}$/.test(normalizedUsername)) {
+          throw new Error("Username must be 3–32 characters using letters, numbers, or underscores");
+        }
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
             emailRedirectTo: window.location.origin,
-            data: { full_name: name.trim() || email.split("@")[0] },
+            data: {
+              username: normalizedUsername,
+              full_name: name.trim() || normalizedUsername,
+            },
           },
         });
         if (error) throw error;
@@ -56,12 +68,32 @@ function AuthPage() {
           return;
         }
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const result = await signIn({ data: { username, password } });
+        const { error } = await supabase.auth.setSession(result.session);
         if (error) throw error;
       }
       void navigate({ to: "/friends" });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Something went wrong");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const sendReset = async () => {
+    if (!email.trim()) {
+      toast.error("Enter your email address first");
+      return;
+    }
+    setBusy(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      if (error) throw error;
+      setResetSent(true);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not send the reset email");
     } finally {
       setBusy(false);
     }
@@ -111,19 +143,29 @@ function AuthPage() {
 
               <form className="space-y-3" onSubmit={submit}>
                 {mode === "signup" ? (
-                  <input
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Display name"
-                    className="w-full rounded-2xl border border-border bg-surface/60 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring/40"
-                  />
+                  <>
+                    <input
+                      required
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value.toLowerCase())}
+                      placeholder="Username"
+                      pattern="[a-z0-9_]{3,32}"
+                      className="w-full rounded-2xl border border-border bg-surface/60 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring/40"
+                    />
+                    <input
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Display name (optional)"
+                      className="w-full rounded-2xl border border-border bg-surface/60 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring/40"
+                    />
+                  </>
                 ) : null}
                 <input
-                  type="email"
+                  type={mode === "signup" ? "email" : "text"}
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@email.com"
+                  placeholder={mode === "signup" ? "you@email.com" : "Username"}
                   className="w-full rounded-2xl border border-border bg-surface/60 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring/40"
                 />
                 <input
@@ -143,6 +185,22 @@ function AuthPage() {
                   {busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
                 </button>
               </form>
+
+              {mode === "signin" ? (
+                <div className="mt-4 text-center">
+                  <button
+                    type="button"
+                    onClick={() => void sendReset()}
+                    disabled={busy}
+                    className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+                  >
+                    Forgot password? Enter your email above
+                  </button>
+                  {resetSent ? (
+                    <p className="mt-2 text-xs text-muted-foreground">Check your email for a reset link.</p>
+                  ) : null}
+                </div>
+              ) : null}
 
               <button
                 type="button"
