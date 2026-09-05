@@ -42,6 +42,7 @@ export type Database = {
           friend_code: string
           id: string
           updated_at: string
+          username: string
         }
         Insert: {
           created_at?: string
@@ -49,6 +50,7 @@ export type Database = {
           friend_code: string
           id: string
           updated_at?: string
+          username: string
         }
         Update: {
           created_at?: string
@@ -56,6 +58,7 @@ export type Database = {
           friend_code?: string
           id?: string
           updated_at?: string
+          username?: string
         }
         Relationships: []
       }
@@ -131,13 +134,14 @@ export type Database = {
     }
     Functions: {
       ensure_my_profile: {
-        Args: { _display_name?: string }
+        Args: { _display_name?: string; _username?: string }
         Returns: {
           created_at: string
           display_name: string
           friend_code: string
           id: string
           updated_at: string
+          username: string
         }
         SetofOptions: {
           from: "*"

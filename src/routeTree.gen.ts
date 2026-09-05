@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as FriendsRouteImport } from './routes/friends'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SyllabusRouteImport } from './routes/syllabus'
 import { Route as FriendsFriendIdRouteImport } from './routes/friends_.$friendId'
@@ -32,6 +33,11 @@ const AuthRoute = AuthRouteImport.update({
 const FriendsRoute = FriendsRouteImport.update({
   id: '/friends',
   path: '/friends',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsRoute = SettingsRouteImport.update({
@@ -70,6 +76,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/friends': typeof FriendsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/settings': typeof SettingsRoute
   '/syllabus': typeof SyllabusRoute
   '/friends/$friendId': typeof FriendsFriendIdRoute
@@ -81,6 +88,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/friends': typeof FriendsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/settings': typeof SettingsRoute
   '/syllabus': typeof SyllabusRoute
   '/friends/$friendId': typeof FriendsFriendIdRoute
@@ -93,6 +101,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/friends': typeof FriendsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/settings': typeof SettingsRoute
   '/syllabus': typeof SyllabusRoute
   '/friends_/$friendId': typeof FriendsFriendIdRoute
@@ -106,6 +115,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/friends'
+    | '/reset-password'
     | '/settings'
     | '/syllabus'
     | '/friends/$friendId'
@@ -117,6 +127,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/friends'
+    | '/reset-password'
     | '/settings'
     | '/syllabus'
     | '/friends/$friendId'
@@ -128,6 +139,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/friends'
+    | '/reset-password'
     | '/settings'
     | '/syllabus'
     | '/friends_/$friendId'
@@ -140,6 +152,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
   FriendsRoute: typeof FriendsRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SettingsRoute: typeof SettingsRoute
   SyllabusRoute: typeof SyllabusRoute
   FriendsFriendIdRoute: typeof FriendsFriendIdRoute
@@ -169,6 +182,13 @@ declare module '@tanstack/react-router' {
       path: '/friends'
       fullPath: '/friends'
       preLoaderRoute: typeof FriendsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings': {
@@ -220,6 +240,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   FriendsRoute: FriendsRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SettingsRoute: SettingsRoute,
   SyllabusRoute: SyllabusRoute,
   FriendsFriendIdRoute: FriendsFriendIdRoute,
