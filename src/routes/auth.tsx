@@ -160,14 +160,27 @@ function AuthPage() {
                     />
                   </>
                 ) : null}
-                <input
-                  type={mode === "signup" ? "email" : "text"}
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={mode === "signup" ? "you@email.com" : "Username"}
-                  className="w-full rounded-2xl border border-border bg-surface/60 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring/40"
-                />
+                {mode === "signin" ? (
+                  <input
+                    type="text"
+                    required
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value.toLowerCase())}
+                    placeholder="Username"
+                    autoComplete="username"
+                    className="w-full rounded-2xl border border-border bg-surface/60 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring/40"
+                  />
+                ) : (
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@email.com"
+                    autoComplete="email"
+                    className="w-full rounded-2xl border border-border bg-surface/60 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring/40"
+                  />
+                )}
                 <input
                   type="password"
                   required
@@ -187,17 +200,25 @@ function AuthPage() {
               </form>
 
               {mode === "signin" ? (
-                <div className="mt-4 text-center">
+                <div className="mt-4 space-y-2 text-center">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email for password reset"
+                    autoComplete="email"
+                    className="w-full rounded-2xl border border-border bg-surface/60 px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring/40"
+                  />
                   <button
                     type="button"
                     onClick={() => void sendReset()}
                     disabled={busy}
                     className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
                   >
-                    Forgot password? Enter your email above
+                    Forgot password? Send a reset link
                   </button>
                   {resetSent ? (
-                    <p className="mt-2 text-xs text-muted-foreground">Check your email for a reset link.</p>
+                    <p className="mt-1 text-xs text-muted-foreground">Check your email for a reset link.</p>
                   ) : null}
                 </div>
               ) : null}
