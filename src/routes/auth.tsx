@@ -160,14 +160,27 @@ function AuthPage() {
                     />
                   </>
                 ) : null}
-                <input
-                  type={mode === "signup" ? "email" : "text"}
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={mode === "signup" ? "you@email.com" : "Username"}
-                  className="w-full rounded-2xl border border-border bg-surface/60 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring/40"
-                />
+                {mode === "signin" ? (
+                  <input
+                    type="text"
+                    required
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value.toLowerCase())}
+                    placeholder="Username"
+                    autoComplete="username"
+                    className="w-full rounded-2xl border border-border bg-surface/60 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring/40"
+                  />
+                ) : (
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@email.com"
+                    autoComplete="email"
+                    className="w-full rounded-2xl border border-border bg-surface/60 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring/40"
+                  />
+                )}
                 <input
                   type="password"
                   required
