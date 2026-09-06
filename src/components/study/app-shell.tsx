@@ -5,6 +5,7 @@ import { useStudy } from "@/lib/study/store";
 import { useAuth } from "@/lib/auth";
 import { streakFrom } from "@/lib/study/types";
 import { cn } from "@/lib/utils";
+import photonLogo from "@/assets/photon-logo.png.asset.json";
 
 const nav = [
   { to: "/", label: "Home", icon: Home },
