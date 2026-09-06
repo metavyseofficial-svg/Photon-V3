@@ -42,7 +42,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             className="glass-chrome press group flex min-w-0 items-center gap-2.5 rounded-full py-1.5 pl-1.5 pr-4 lift-hover"
           >
             <img
-              src="/icon-192.png"
+              src={photonLogo.url}
               alt="Photon logo"
               width={192}
               height={192}
